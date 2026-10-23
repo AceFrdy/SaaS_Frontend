@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { HexagonPattern } from "@/components/ui/hexagon-pattern";
+import { GridPattern } from "@/components/ui/grid-pattern";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,10 +26,88 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="id"
+      className={cn(
+        "h-full antialiased scroll-smooth scroll-pt-24",
+        geistSans.variable,
+        geistMono.variable,
+        inter.variable,
+        "font-sans"
+      )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="relative min-h-screen flex flex-col bg-background text-foreground">
+        {/* <HexagonPattern
+          hexagons={[
+            [1, 1],
+            [4, 4],
+            [2, 2],
+            [3, 4],
+            [5, 4],
+            [5, 8],
+            [25, 2],
+            [25, 3],
+            [8, 12],
+            [20, 12],
+            [8, 2],
+            [6, 3],
+            [22, 6],
+            [22, 9],
+            [23, 9],
+            [23, 8],
+            [24, 9],
+            [22, 8],
+            [29, 1],
+            [30, 2],
+            [30, 3],
+            [30, 4],
+            [30, 8],
+            [29, 8],
+            [24, 10],
+            [27, 11],
+            [8, 5],
+            [10,11],
+            [9,11],
+            [10, 12],
+            [11, 11],
+            
+            
+          ]}
+        /> */}
+        {/* <GridPattern
+          squares={[
+            [4, 4],
+            [5, 1],
+            [8, 2],
+            [5, 3],
+            [5, 5],
+            [10, 10],
+            [12, 15],
+            [15, 10],
+            [10, 15],
+            [18, 8],
+            [22, 14],
+            [25, 6],
+          ]} */}
+          <AnimatedGridPattern
+        numSquares={30}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+            "fixed inset-0 z-0 h-full w-full stroke-neutral-300/50 fill-neutral-400/20 dark:stroke-neutral-800/50 dark:fill-neutral-700/20",
+            "[mask-image:radial-gradient(ellipse_at_top,white,transparent_75%)]"
+          )}
+        />
+          {/* className={cn(
+            "fixed inset-0 z-0 h-full w-full stroke-neutral-300/50 fill-neutral-400/20 dark:stroke-neutral-800/50 dark:fill-neutral-700/20",
+            "[mask-image:radial-gradient(ellipse_at_top,white,transparent_75%)]"
+          )}
+        /> */}
+        
+        <div className="relative z-10 flex flex-col flex-1 w-full">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
