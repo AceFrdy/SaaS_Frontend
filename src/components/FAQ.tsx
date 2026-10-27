@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { 
   Accordion, 
@@ -7,6 +7,7 @@ import {
   AccordionTrigger 
 } from "./ui/accordion";
 import { HelpCircle, MessageCircle } from "lucide-react";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/motion";
 
 const faqData = [
   {
@@ -45,37 +46,35 @@ export function FAQ() {
   return (
     <div className="w-full max-w-4xl mx-auto py-12 sm:py-16 px-4">
       {/* Header FAQ */}
-      <div className="text-center max-w-2xl mx-auto mb-10">
-        {/* <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-4 dark:bg-emerald-950/60 text-primary-1 dark:text-emerald-400 text-xs font-semibold mb-3 border border-primary-2/20">
-          <HelpCircle className="w-3.5 h-3.5" />
-          Pertanyaan Sering Diajukan
-        </div> */}
+      <ScrollReveal variant="fade-up" className="text-center max-w-2xl mx-auto mb-10">
         <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
           Jawaban Pertanyaan Anda Seputar CoderDM
         </h2>
         <p className="mt-3 text-sm sm:text-base text-neutral-600 dark:text-neutral-300">
           Punya pertanyaan sebelum memulai? Temukan jawaban praktis seputar instalasi, perangkat, dan keamanan sistem.
         </p>
-      </div>
+      </ScrollReveal>
 
-      {/* Accordion List */}
-      {/* <div className="bg-white dark:bg-neutral-900 rounded-3xl p-4 sm:p-8 border border-neutral-200 dark:border-neutral-800 shadow-[0_10px_30px_rgba(0,0,0,0.05)]"> */}
+      {/* Accordion List with Stagger */}
+      <StaggerContainer staggerDelay={0.08} className="w-full">
         <Accordion defaultValue={["offline-mode"]} className="w-full">
           {faqData.map((item) => (
-            <AccordionItem key={item.id} value={item.id} className="border-b border-neutral-100 dark:border-neutral-800 py-2">
-              <AccordionTrigger className="cursor-pointer text-left font-bold text-sm sm:text-base text-neutral-900 dark:text-neutral-100 hover:text-primary-2 transition-colors py-3">
-                {item.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed pb-3">
-                {item.answer}
-              </AccordionContent>
-            </AccordionItem>
+            <StaggerItem key={item.id} variant="fade-up" distance={16}>
+              <AccordionItem value={item.id} className="border-b border-neutral-100 dark:border-neutral-800 py-2">
+                <AccordionTrigger className="cursor-pointer text-left font-bold text-sm sm:text-base text-neutral-900 dark:text-neutral-100 hover:text-primary-2 transition-colors py-3">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed pb-3">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            </StaggerItem>
           ))}
         </Accordion>
-      {/* </div> */}
+      </StaggerContainer>
 
       {/* Callout Bantuan Tambahan */}
-      <div className="mt-8 text-center text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 flex flex-wrap items-center justify-center gap-2">
+      <ScrollReveal variant="fade-up" delay={0.2} className="mt-8 text-center text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 flex flex-wrap items-center justify-center gap-2">
         <span>Masih ada pertanyaan lain yang belum terjawab?</span>
         <a 
           href="https://wa.me/6281234567890?text=Halo%20tim%20LoCo,%20saya%20mau%20tanya%20seputar%20sistem"
@@ -86,7 +85,7 @@ export function FAQ() {
           <MessageCircle className="w-4 h-4" />
           Hubungi Customer Support Kami
         </a>
-      </div>
+      </ScrollReveal>
     </div>
   );
 }

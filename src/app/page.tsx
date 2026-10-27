@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Service from "../components/Service";
@@ -11,28 +10,17 @@ import Testimonial from "@/components/Testimonial";
 import Price from "@/components/Price";
 import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
+import { ScrollProgressBar, ScrollToTop } from "@/components/motion";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col w-full">
+      <ScrollProgressBar />
       <Header />
 
-      <main className="flex-1 w-full flex flex-col items-center relative overflow-hidden">
-        {/* Background SVG Hero - Full Width Mentok Kiri-Kanan (Dark Theme #0B1120) */}
+      <main className="flex-1 w-full flex flex-col items-between relative overflow-hidden">
         <div className="absolute -top-40 left-0 w-full overflow-hidden leading-none pointer-events-none -z-10">
-          {/* Subtle ambient light glow bernuansa emerald/teal seperti di Service */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[300px] bg-emerald-500/15 blur-[120px] rounded-full" />
-          {/* <svg
-            className="w-full h-[360px] sm:h-[440px] md:h-[500px] text-[#0B1120]"
-            viewBox="0 0 1440 420"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M0 0 H1440 V260 C1100 480 340 480 0 260 Z"
-              fill="currentColor"
-            />
-          </svg> */}
           <svg
             className="w-full h-[360px] sm:h-[440px] md:h-[500px] text-[#0B1120]"
             viewBox="0 0 1440 420"
@@ -43,7 +31,7 @@ export default function Home() {
           </svg>
         </div>
         {/* Konten Bagian Atas (Hero, Aplikasi, Fitur) */}
-        <div className="w-full max-w-7xl mx-auto flex flex-col items-center pt-10 pb-8 px-4 sm:px-8 gap-16 md:gap-24">
+        <div className="w-full max-w-7xl mx-auto flex flex-col items-center pt-10 pb-8 px-4 sm:px-8 gap-4 md:gap-2">
           <section id="hero" className="w-full flex justify-center z-20">
             <Hero />
           </section>
@@ -61,15 +49,15 @@ export default function Home() {
         </section>
 
         {/* Konten Bagian Bawah (Bantuan, Layanan, Testimoni, Harga, FAQ) */}
-        <div className="w-full max-w-7xl mx-auto flex flex-col items-center py-12 md:py-20 px-4 sm:px-8 gap-16 md:gap-24">
+        <div className="w-full max-w-7xl mx-auto flex flex-col items-center py-12 md:py-4 px-4 sm:px-8 gap-4 md:gap-4">
           <section id="bantuan" className="w-full">
             <Bantuan />
           </section>
         </div>
-        <section id="layanan" className="w-full">
+        <section id="layanan" className="w-full hidden">
           <Service />
         </section>
-        <div className="w-full max-w-7xl mx-auto flex flex-col items-center py-12 md:py-20 px-4 sm:px-8 gap-16 md:gap-24">
+        <div className="w-full max-w-7xl mx-auto flex flex-col items-center py-12 md:py-4 px-4 sm:px-8 gap-4 md:gap-2">
           <section id="testimoni" className="w-full">
             <Testimonial />
           </section>
@@ -88,7 +76,10 @@ export default function Home() {
       </main >
 
       {/* Footer Full Width (Lebar Penuh Layar) */}
-      < Footer />
-    </div >
+      <Footer />
+
+      {/* Floating Scroll-to-Top Button */}
+      <ScrollToTop />
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { Button } from "./ui/button";
 import { 
@@ -10,28 +10,25 @@ import {
   CheckCircle2,
   HeartHandshake
 } from "lucide-react";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/motion";
 
 export default function Bantuan() {
   return (
     <div className="w-full py-12 sm:py-16 flex flex-col items-center">
       {/* Section Header */}
-      <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-        {/* <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-4 dark:bg-emerald-950/60 text-primary-1 dark:text-emerald-400 text-xs font-semibold mb-3 border border-primary-2/20">
-          <HeartHandshake className="w-3.5 h-3.5" />
-          Layanan Purna Jual &amp; Pendampingan
-        </div> */}
+      <ScrollReveal variant="fade-up" className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
         <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
           Didampingi Langsung, Tidak Perlu Khawatir Gaptek
         </h2>
         <p className="mt-3 text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-2xl mx-auto">
           Kami memahami transisi dari buku tulis atau aplikasi lama butuh penyesuaian. Tim spesialis kami hadir mendampingi Anda sampai seluruh staf terbiasa.
         </p>
-      </div>
+      </ScrollReveal>
 
       {/* 2-Column Showcase */}
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-10 sm:mb-14">
         {/* Left Column: Visual Container / Illustration Box */}
-        <div className="lg:col-span-6 w-full">
+        <ScrollReveal variant="fade-right" duration={0.65} className="lg:col-span-6 w-full">
           <div className="w-full bg-white dark:bg-neutral-900 rounded border border-neutral-200 dark:border-neutral-800 p-6 sm:p-8 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.06)] min-h-[340px]">
             {/* Top Badge inside Visual */}
             <div className="flex items-center justify-between pb-3 border-b border-neutral-100 dark:border-neutral-800">
@@ -39,10 +36,6 @@ export default function Bantuan() {
                 <Headphones className="w-3.5 h-3.5" />
                 Dukungan Prioritas Resmi
               </span>
-              {/* <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Siaga Setiap Hari
-              </span> */}
             </div>
 
             {/* Middle Feature Highlights */}
@@ -85,10 +78,10 @@ export default function Bantuan() {
               <span className="font-bold text-primary-1 dark:text-emerald-400">Termasuk di Semua Paket</span>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Right Column: Explanatory Content & Action Button */}
-        <div className="lg:col-span-6 flex flex-col justify-center space-y-5">
+        <ScrollReveal variant="fade-left" duration={0.65} className="lg:col-span-6 flex flex-col justify-center space-y-5">
           <div className="space-y-3">
             <h3 className="text-xl sm:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
               Pelatihan Fleksibel: Online Maupun Datang ke Lokasi
@@ -127,7 +120,7 @@ export default function Bantuan() {
             >
               <Button
                 size="lg"
-                className="bg-primary-1 hover:bg-emerald-800 text-white rounded px-7 py-6 text-sm sm:text-base font-bold shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                className="bg-primary-1 hover:bg-emerald-800 text-white rounded px-7 py-6 text-sm sm:text-base font-bold shadow-md transition-all cursor-pointer inline-flex items-center gap-2 hover:-translate-y-0.5 active:translate-y-0"
               >
                 <span>Konsultasi via WhatsApp</span>
                 <ArrowRight className="w-4 h-4" />
@@ -137,7 +130,7 @@ export default function Bantuan() {
               Gratis &bull; Tanpa Syarat Komitmen
             </span>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { 
   ShoppingCart, 
@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { GridPattern } from "@/components/ui/grid-pattern";
+import { ScrollReveal } from "@/components/motion";
 
 // Row 1: 2 kartu berdampingan (col-span-1 masing-masing)
 // Row 2: 1 kartu full-width (col-span-2)
@@ -176,24 +177,23 @@ export function Service() {
 
         <div className="max-w-6xl mx-auto flex flex-col items-center relative z-10">
           {/* HEADER SECTION */}
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            {/* <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-950/80 text-emerald-400 text-xs font-semibold mb-3 border border-emerald-500/30 shadow-xs">
-              Fleksibel Sesuai Model Usaha Anda
-            </span> */}
+          <ScrollReveal variant="fade-up" className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
             <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
               Cakupan Fitur yang Menjawab Masalah Harian Anda
             </h2>
             <p className="mt-3 text-sm sm:text-base text-slate-300/90 leading-relaxed font-normal">
               Semua modul dapat diaktifkan sesuai kebutuhan bertahap tanpa harus membayar fitur yang tidak Anda gunakan.
             </p>
-          </div>
+          </ScrollReveal>
 
           {/* MAGIC UI BENTO GRID */}
-          <BentoGrid className="w-full grid-cols-2 auto-rows-[280px]">
-            {services.map((service) => (
-              <BentoCard key={service.name} {...service} />
-            ))}
-          </BentoGrid>
+          <ScrollReveal variant="fade-up" delay={0.15} className="w-full">
+            <BentoGrid className="w-full grid-cols-2 auto-rows-[280px]">
+              {services.map((service) => (
+                <BentoCard key={service.name} {...service} />
+              ))}
+            </BentoGrid>
+          </ScrollReveal>
         </div>
       </div>
     </section>

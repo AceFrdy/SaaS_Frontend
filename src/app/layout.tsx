@@ -6,7 +6,7 @@ import { HexagonPattern } from "@/components/ui/hexagon-pattern";
 import { GridPattern } from "@/components/ui/grid-pattern";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -88,22 +88,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             [22, 14],
             [25, 6],
           ]} */}
-          <AnimatedGridPattern
-        numSquares={30}
-        maxOpacity={0.1}
-        duration={3}
-        repeatDelay={1}
-        className={cn(
+        <AnimatedGridPattern
+          numSquares={30}
+          maxOpacity={0.1}
+          duration={3}
+          repeatDelay={1}
+          className={cn(
             "fixed inset-0 z-0 h-full w-full stroke-neutral-300/50 fill-neutral-400/20 dark:stroke-neutral-800/50 dark:fill-neutral-700/20",
             "[mask-image:radial-gradient(ellipse_at_top,white,transparent_75%)]"
           )}
         />
-          {/* className={cn(
+        {/* className={cn(
             "fixed inset-0 z-0 h-full w-full stroke-neutral-300/50 fill-neutral-400/20 dark:stroke-neutral-800/50 dark:fill-neutral-700/20",
             "[mask-image:radial-gradient(ellipse_at_top,white,transparent_75%)]"
           )}
         /> */}
-        
+
         <div className="relative z-10 flex flex-col flex-1 w-full">
           {children}
         </div>

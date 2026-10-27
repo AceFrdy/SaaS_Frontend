@@ -1,7 +1,8 @@
-"use client";
+"use client"
 
 import type React from "react";
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -91,6 +92,7 @@ const featureList: FeatureItem[] = [
 
 export function Features() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [direction, setDirection] = useState(1); // 1 = next (kanan→kiri), -1 = prev (kiri→kanan)
 
   // Group into pairs of 2 features per slide for desktop view
   const pairs: FeatureItem[][] = [];
@@ -101,23 +103,43 @@ export function Features() {
   const totalSlides = pairs.length;
 
   const handlePrev = () => {
+    setDirection(-1);
     setActiveSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
   };
 
   const handleNext = () => {
+    setDirection(1);
     setActiveSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
   };
 
+  const handleDot = (index: number) => {
+    setDirection(index > activeSlide ? 1 : -1);
+    setActiveSlide(index);
+  };
+
   const currentPair = pairs[activeSlide] || pairs[0];
+
+  const slideVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? "60%" : "-60%",
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 0.45, ease: [0.32, 0.72, 0, 1] as [number, number, number, number] },
+    },
+    exit: (dir: number) => ({
+      x: dir > 0 ? "-60%" : "60%",
+      opacity: 0,
+      transition: { duration: 0.35, ease: [0.32, 0.72, 0, 1] as [number, number, number, number] },
+    }),
+  };
 
   return (
     <section className="w-full py-12 sm:py-16 flex flex-col items-center">
       {/* Header Section */}
       <div className="max-w-3xl mx-auto text-center px-4 flex flex-col items-center">
-        {/* <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-4 dark:bg-emerald-950/60 text-primary-1 dark:text-emerald-400 text-xs font-semibold mb-3 border border-primary-2/20">
-          <Zap className="w-3.5 h-3.5" />
-          Keunggulan Utama Sistem CoderDM
-        </div> */}
         <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
           Fitur Komprehensif yang Praktis Dijalankan
         </h2>
@@ -128,60 +150,70 @@ export function Features() {
       </div>
 
       {/* Feature Cards Grid (2 Kolom) */}
-      <div className="w-full max-w-5xl mx-auto mt-10 sm:mt-14 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {currentPair.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.id}
-                className="flex flex-col rounded bg-white dark:bg-neutral-900 p-6 sm:p-8 border border-neutral-200 dark:border-neutral-800 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-xl transition-all duration-300 hover:border-primary-2/40 group justify-between"
-              >
-                <div>
-                  {/* Tag & Icon Header */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-primary-4 dark:bg-emerald-950/70 text-primary-1 dark:text-emerald-400 flex items-center justify-center font-bold">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-primary-2 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/80 px-3 py-1 rounded-full border border-teal-200/40">
-                      {item.tag}
-                    </span>
-                  </div>
-
-                  {/* Title & Subtitle */}
-                  <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white group-hover:text-primary-2 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 mt-1">
-                    {item.subtitle}
-                  </p>
-
-                  {/* Description */}
-                  <p className="text-sm text-neutral-600 dark:text-neutral-300 mt-3 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-
-                {/* Bottom Metric Bar */}
-                <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between">
+      <div className="w-full max-w-5xl mx-auto mt-10 sm:mt-14 px-4 overflow-hidden">
+        <AnimatePresence mode="popLayout" custom={direction}>
+          <motion.div
+            key={activeSlide}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
+          >
+            {currentPair.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.id}
+                  className="flex flex-col rounded bg-white dark:bg-neutral-900 p-6 sm:p-8 border border-neutral-200 dark:border-neutral-800 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-xl transition-all duration-300 hover:border-primary-2/40 group justify-between"
+                >
                   <div>
-                    <div className="text-2xl font-black text-primary-1 dark:text-emerald-400">
-                      {item.stats}
+                    {/* Tag & Icon Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-primary-4 dark:bg-emerald-950/70 text-primary-1 dark:text-emerald-400 flex items-center justify-center font-bold">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-primary-2 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/80 px-3 py-1 rounded-full border border-teal-200/40">
+                        {item.tag}
+                      </span>
                     </div>
-                    <div className="text-xs text-neutral-500 dark:text-neutral-400 font-medium">
-                      {item.statsLabel}
-                    </div>
+
+                    {/* Title & Subtitle */}
+                    <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white group-hover:text-primary-2 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 mt-1">
+                      {item.subtitle}
+                    </p>
+
+                    {/* Description */}
+                    <p className="text-sm text-neutral-600 dark:text-neutral-300 mt-3 leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
 
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800 px-3 py-1.5 rounded-xl">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span>Teruji &amp; Stabil</span>
+                  {/* Bottom Metric Bar */}
+                  <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between">
+                    <div>
+                      <div className="text-2xl font-black text-primary-1 dark:text-emerald-400">
+                        {item.stats}
+                      </div>
+                      <div className="text-xs text-neutral-500 dark:text-neutral-400 font-medium">
+                        {item.statsLabel}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800 px-3 py-1.5 rounded-xl">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <span>Teruji &amp; Stabil</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Carousel Controls */}
@@ -204,7 +236,7 @@ export function Features() {
               <button
                 key={`slide-${slideKey}`}
                 type="button"
-                onClick={() => setActiveSlide(index)}
+                onClick={() => handleDot(index)}
                 aria-label={`Go to slide ${index + 1}`}
                 className={`transition-all duration-300 rounded-full cursor-pointer ${
                   isActive

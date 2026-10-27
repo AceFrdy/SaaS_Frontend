@@ -1,10 +1,11 @@
-"use client";
+"use client"
 
 import { useState } from "react";
 import CardPrice from "./base/CardPrice";
 import { Switch } from "./ui/switch";
 import { BadgePercent } from "lucide-react";
 import { PlanItem } from "@/types";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/motion";
 
 const pricingPlans: PlanItem[] = [
   {
@@ -27,7 +28,7 @@ const pricingPlans: PlanItem[] = [
     monthlyPrice: 299000,
     yearlyPrice: 239000,
     features: [
-      "Hingga 3 Cabang Toko Terkoneksi",
+      "Hingga 3 Cabang Toko",
       "Multi-Kasir & Manajemen Shift Karyawan",
       "Absensi Karyawan Selfie GPS",
       "Resep Produk & Pengurangan Bahan Baku",
@@ -64,11 +65,7 @@ export function Price() {
     <section className="w-full py-12 sm:py-16 px-4">
       <div className="flex flex-col items-center justify-center gap-6 w-full max-w-6xl mx-auto">
         {/* Header Section */}
-        <div className="flex flex-col items-center text-center gap-3 max-w-2xl">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-4 dark:bg-emerald-950/60 text-primary-1 dark:text-emerald-400 text-xs font-semibold border border-primary-2/20">
-            <BadgePercent className="w-3.5 h-3.5" />
-            Investasi Terjangkau &amp; Transparan
-          </div>
+        <ScrollReveal variant="fade-up" className="flex flex-col items-center text-center gap-3 max-w-2xl">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
             Pilihan Paket yang Fleksibel Tanpa Biaya Tersembunyi
           </h2>
@@ -111,27 +108,36 @@ export function Price() {
               </span>
             </button>
           </div>
-        </div>
+        </ScrollReveal>
 
-        {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full max-w-5xl mt-4">
+        {/* Pricing Cards Grid with Stagger */}
+        <StaggerContainer
+          staggerDelay={0.15}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full max-w-5xl mt-4 items-stretch"
+        >
           {pricingPlans.map((plan) => (
-            <CardPrice
+            <StaggerItem
               key={plan.title}
-              title={plan.title}
-              price={isYearly ? plan.yearlyPrice : plan.monthlyPrice}
-              period="/bulan"
-              billedText={isYearly ? "Ditagih Tahunan (Hemat 2 Bulan)" : "Ditagih Setiap Bulan"}
-              features={plan.features}
-              buttonText={plan.buttonText}
-              description={plan.description}
-              isPopular={plan.isPopular}
-              isSelected={selectedPlan === plan.title}
-              onSelect={() => setSelectedPlan(plan.title)}
-              onSubscribe={() => setSelectedPlan(plan.title)}
-            />
+              variant="fade-up"
+              distance={35}
+              className="h-full flex flex-col"
+            >
+              <CardPrice
+                title={plan.title}
+                price={isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                period="/bulan"
+                billedText={isYearly ? "Ditagih Tahunan (Hemat 2 Bulan)" : "Ditagih Setiap Bulan"}
+                features={plan.features}
+                buttonText={plan.buttonText}
+                description={plan.description}
+                isPopular={plan.isPopular}
+                isSelected={selectedPlan === plan.title}
+                onSelect={() => setSelectedPlan(plan.title)}
+                onSubscribe={() => setSelectedPlan(plan.title)}
+              />
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

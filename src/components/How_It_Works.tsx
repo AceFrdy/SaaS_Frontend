@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useState } from "react";
 import { 
@@ -13,6 +13,8 @@ import {
   CalendarCheck
 } from "lucide-react";
 import { Step } from "@/types";
+import { useCurtain } from "@/hooks/useCurtain";
+import { ScrollReveal } from "@/components/motion";
 
 const steps: Step[] = [
   {
@@ -75,37 +77,44 @@ const steps: Step[] = [
 
 export function How_It_Works() {
   const [activeStep, setActiveStep] = useState<number>(1);
-  const currentStep = steps.find((s) => s.id === activeStep) || steps[0];
+
+  const { current: currentStep, transition, containerClass, curtainStyle } = useCurtain(
+    steps.find((s) => s.id === 1) || steps[0],
+    { direction: "vertical", closeDuration: 180, openDuration: 280 }
+  );
+
   const StepIcon = currentStep.icon;
+
+  function handleStepClick(step: Step) {
+    if (step.id === activeStep) return;
+    setActiveStep(step.id);
+    transition(step);
+  }
 
   return (
     <div className="w-full bg-linear-to-b from-neutral-900 to-neutral-950 text-white py-16 sm:py-24 px-4 sm:px-8 transition-all">
       <div className="w-full max-w-6xl mx-auto">
         {/* Header How It Works */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          {/* <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-950/80 text-emerald-400 text-xs font-semibold mb-3 border border-emerald-500/20">
-            <CalendarCheck className="w-3.5 h-3.5" />
-            Proses Cepat &amp; Terstruktur
-          </div> */}
+        <ScrollReveal variant="fade-up" className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
             4 Langkah Mudah Memulai Bersama CoderDM
           </h2>
           <p className="mt-3 text-sm sm:text-base text-neutral-300 leading-relaxed max-w-2xl mx-auto font-normal">
             Anda tidak perlu pusing setting teknis sendirian. Tim kami mendampingi setiap tahap dari input data sampai staf kasir Anda lancar bertransaksi.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Main Grid: Steps List on Left, Deliverable Card on Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
           {/* Left Column: Step List */}
-          <div className="lg:col-span-5 flex flex-col space-y-3 justify-center">
+          <ScrollReveal variant="fade-right" duration={0.65} className="lg:col-span-5 flex flex-col space-y-3 justify-center">
             {steps.map((step) => {
               const isActive = step.id === activeStep;
               const Icon = step.icon;
               return (
                 <button
                   key={step.id}
-                  onClick={() => setActiveStep(step.id)}
+                  onClick={() => handleStepClick(step)}
                   type="button"
                   className={`group flex items-center justify-between w-full text-left p-4 rounded transition-all cursor-pointer border ${
                     isActive
@@ -147,61 +156,62 @@ export function How_It_Works() {
                 </button>
               );
             })}
-          </div>
+          </ScrollReveal>
 
           {/* Right Column: Practical Showcase Card */}
-          <div className="lg:col-span-7 flex flex-col bg-neutral-800/90 rounded p-6 sm:p-8 border border-neutral-700 shadow-xl justify-between">
-            <div>
-              {/* Badge & Timing */}
-              <div className="flex items-center justify-between mb-4">
-                <span className="inline-block text-xs font-bold px-3 py-1 rounded-full bg-primary-1 text-emerald-200">
-                  {currentStep.badge}
-                </span>
-                {/* <span className="text-xs font-semibold text-neutral-400 bg-white/5 px-3 py-1 rounded-full border border-white/10">
-                  Estimasi: {currentStep.duration}
-                </span> */}
-              </div>
-
-              {/* Title & Desc */}
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2.5 rounded-xl bg-primary-2 text-white">
-                  <StepIcon className="w-6 h-6" />
+          <ScrollReveal variant="fade-left" duration={0.65} className="lg:col-span-7 flex flex-col">
+            <div className={`w-full h-full flex flex-col bg-neutral-800/90 rounded p-6 sm:p-8 shadow-xl justify-between ${containerClass}`}>
+              {/* Curtain overlay */}
+              <div style={curtainStyle} />
+              <div>
+                {/* Badge & Timing */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="inline-block text-xs font-bold px-3 py-1 rounded-full bg-primary-1 text-emerald-200">
+                    {currentStep.badge}
+                  </span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-white">
-                  {currentStep.headline}
-                </h3>
-              </div>
 
-              <p className="text-sm sm:text-base text-neutral-300 leading-relaxed mt-3">
-                {currentStep.desc}
-              </p>
-
-              {/* Deliverables / Yang Anda Terima */}
-              <div className="mt-6 bg-neutral-900/80 rounded p-5 border border-neutral-700/80 space-y-3">
-                <div className="text-xs font-bold uppercase tracking-wider text-neutral-400">
-                  Hasil Nyata yang Anda Dapatkan:
-                </div>
-                {currentStep.deliverables.map((item) => (
-                  <div key={item} className="flex items-start gap-2.5 text-sm text-neutral-200">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span>{item}</span>
+                {/* Title & Desc */}
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2.5 rounded-xl bg-primary-2 text-white">
+                    <StepIcon className="w-6 h-6" />
                   </div>
-                ))}
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">
+                    {currentStep.headline}
+                  </h3>
+                </div>
+
+                <p className="text-sm sm:text-base text-neutral-300 leading-relaxed mt-3">
+                  {currentStep.desc}
+                </p>
+
+                {/* Deliverables / Yang Anda Terima */}
+                <div className="mt-6 bg-neutral-900/80 rounded p-5 border border-neutral-700/80 space-y-3">
+                  <div className="text-xs font-bold uppercase tracking-wider text-neutral-400">
+                    Hasil Nyata yang Anda Dapatkan:
+                  </div>
+                  {currentStep.deliverables.map((item) => (
+                    <div key={item} className="flex items-start gap-2.5 text-sm text-neutral-200">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom Guarantee Note */}
+              <div className="mt-6 pt-4 border-t border-neutral-700 flex flex-wrap items-center justify-between gap-3 text-xs text-neutral-400">
+                <span className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  Garansi Pendampingan Sampai Tuntas
+                </span>
+                <span className="flex items-center gap-2">
+                  <Headphones className="w-4 h-4 text-emerald-400" />
+                  Hotline WhatsApp 08.00 - 22.00 WIB
+                </span>
               </div>
             </div>
-
-            {/* Bottom Guarantee Note */}
-            <div className="mt-6 pt-4 border-t border-neutral-700 flex flex-wrap items-center justify-between gap-3 text-xs text-neutral-400">
-              <span className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                Garansi Pendampingan Sampai Tuntas
-              </span>
-              <span className="flex items-center gap-2">
-                <Headphones className="w-4 h-4 text-emerald-400" />
-                Hotline WhatsApp 08.00 - 22.00 WIB
-              </span>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { useScroll } from "motion/react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -20,14 +21,21 @@ const aplikasiSections: MenuSection[] = [
   {
     title: "Operasional Toko & Tim",
     items: [
-      { title: "POS (Kasir Pintar)", href: "#aplikasi", desc: "Aplikasi kasir & penjualan terintegrasi" },
-      { title: "PWS (Personal Web Server)", href: "#aplikasi", desc: "Manajemen shift & absensi staf" },
+      { title: "POS (Kasir Pintar)", href: "#aplikasi"},
+      { title: "PWS (Personal Web Server)", href: "#aplikasi" },
     ],
   },
   {
     title: "Gudang & Manufaktur",
     items: [
-      { title: "ERP", href: "#aplikasi", desc: "Sistem inventaris, stok & manufaktur" },
+      { title: "ERP", href: "#aplikasi" },
+    ],
+  },
+  {
+    title: "Infrasruktur dan System",
+    items: [
+      { title: "POS (Kasir Pintar)", href: "#aplikasi"},
+      { title: "PWS (Personal Web Server)", href: "#aplikasi" },
     ],
   },
 ];
@@ -88,12 +96,32 @@ function MenuColumnList({
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    return scrollY.on("change", (latest) => {
+      setScrolled(latest > 20);
+    });
+  }, [scrollY]);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 transition-all">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        scrolled
+          ? "border-b border-border/80 bg-background/90 backdrop-blur-xl shadow-xs"
+          : "border-b border-border/30 bg-background/60 backdrop-blur-md"
+      )}
+    >
+      <div
+        className={cn(
+          "w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between transition-all duration-300",
+          scrolled ? "h-14 sm:h-16" : "h-16 sm:h-20"
+        )}
+      >
         {/* Brand / Logo */}
         <Link
           href="/"
@@ -146,7 +174,8 @@ function Header() {
                   Layanan
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="p-4 w-[420px]">
-                  <div className="grid grid-cols-1 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <MenuColumnList sections={layananSections} />
                     <MenuColumnList sections={layananSections} />
                   </div>
                 </NavigationMenuContent>

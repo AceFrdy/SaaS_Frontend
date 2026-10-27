@@ -1,5 +1,6 @@
-"use client";
+"use client"
 
+import { useRef } from "react";
 import { 
   ArrowRight, 
   CheckCircle2, 
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Marquee } from "./ui/marquee";
+import { motion, useScroll, useTransform } from "motion/react";
 
 const businessTypes = [
   "Minimarket & Retail",
@@ -24,41 +26,63 @@ const businessTypes = [
 ];
 
 export function Hero() {
-  return (
-    <div className="w-full flex flex-col items-center pt-4 sm:pt-8 pb-4">
-      {/* Badge Atas */}
-      {/* <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-4 dark:bg-emerald-950/60 border border-primary-2/30 text-primary-1 dark:text-emerald-400 text-xs sm:text-sm font-semibold mb-6 shadow-xs animate-in fade-in slide-in-from-top-3 duration-500">
-        <span className="w-2 h-2 rounded-full bg-primary-2 animate-pulse" />
-        Sistem Manajemen Bisnis & Kasir Terpadu untuk UMKM Indonesia
-      </div> */}
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
 
-      {/* Headline & Subheadline yang Jelas & Terbaca di atas Dark Background */}
-      <div className="max-w-4xl text-center px-4 space-y-4">
-        <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+  const yText = useTransform(scrollYProgress, [0, 1], [0, 45]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.4]);
+
+  return (
+    <div ref={containerRef} className="w-full flex flex-col items-center pt-4 sm:pt-8 pb-4">
+      {/* Headline & Subheadline with Parallax on Scroll */}
+      <motion.div
+        style={{ y: yText, opacity }}
+        className="max-w-4xl text-center px-4 space-y-4"
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15]"
+        >
           Kelola Penjualan, Stok, <br/> {" "}
           <span className="text-emerald-400 underline decoration-primary-3/60 decoration-wavy decoration-2 underline-offset-8">
             Praktis &amp; Akurat
           </span>
-        </h1>
-        <p className="mt-4 text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-4 text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal"
+        >
           Gantikan pencatatan manual yang rawan selisih. Pantau kasir multi-cabang, inventaris gudang, hingga laporan laba-rugi otomatis dari ponsel atau komputer Anda.
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
       {/* Tombol CTA yang Jelas */}
-      <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 sm:mt-10">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 sm:mt-10"
+      >
         <a href="#harga">
           <Button 
             size="lg" 
-            className="bg-primary-3 hover:bg-orange-600 text-white font-bold text-base px-8 py-6 rounded shadow-lg hover:shadow-xl transition-all cursor-pointer flex items-center gap-2 hover:-translate-y-0.5"
+            className="bg-primary-3 hover:bg-orange-600 text-white font-bold text-base px-8 py-6 rounded shadow-lg hover:shadow-xl transition-all cursor-pointer flex items-center gap-2 hover:-translate-y-0.5 active:translate-y-0"
           >
             <span>Mulai Uji Coba Gratis</span>
             <ArrowRight className="w-5 h-5" />
           </Button>
         </a>
-
-        
-      </div>
+      </motion.div>
 
       {/* Key Benefits Ringkas */}
       {/* <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mt-6 text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-medium">
