@@ -12,7 +12,7 @@ export default function CTA() {
 
       <ScrollReveal variant="scale-up" duration={0.7} className="max-w-4xl mx-auto flex flex-col items-center justify-center text-center gap-6 relative z-10">
         <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-          Siap Merapikan Operasional &amp; Membesarkan Bisnis Anda?
+          Siap Merapikan Operasional &amp; Membesarkan Bisnis Anda? 
         </h2>
 
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 pt-2">
